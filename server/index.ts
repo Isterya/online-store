@@ -1,8 +1,10 @@
-import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
 import sequelize from './db';
 
-dotenv.config();
+import './models/models';
 
 const PORT = process.env.PORT || 5000;
 
@@ -16,7 +18,9 @@ const start = async () => {
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });
-  } catch (e) {}
+  } catch (e) {
+    console.error('DB connection error:', e);
+  }
 };
 
 start();
