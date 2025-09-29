@@ -41,7 +41,35 @@ class DeviceController {
     }
   }
 
-  async getAll(req: Request, res: Response) {}
+  async getAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { brandId, typeId } = req.query;
+
+      let devices;
+
+      if (!brandId && !typeId) {
+        devices = await Device.findAll();
+      }
+
+      if (brandId && !typeId) {
+        devices = await Device.findAll({ where: { brandId } });
+      }
+
+      if (!brandId && typeId) {
+        devices = await Device.findAll({ where: { typeId } });
+      }
+
+      if (brandId && typeId) {
+        devices = await Device.findAll({ where: { typeId, brandId } });
+      }
+
+      return res.json(devices);
+    } catch (e) {
+      next(
+        ApiError.badRequest(e instanceof Error ? e.message : 'Unknown error')
+      );
+    }
+  }
 
   async getOne(req: Request, res: Response) {}
 }
