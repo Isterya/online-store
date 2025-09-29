@@ -39,17 +39,26 @@ class UserController {
     return res.json({ token });
   }
 
-  async login(req: Request, res: Response) {}
+  async login(req: Request, res: Response, next: NextFunction) {
+    const { email, password } = req.body;
+    const userInstance = await User.findOne({ where: { email } });
 
-  async auth(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.query;
-
-    if (!id) {
-      return next(ApiError.badRequest('ID is required'));
+    if (!userInstance) {
+      return next(ApiError.internal('User not found'));
     }
 
-    res.json(id);
+    const user = userInstance as any;
+
+    let comparedPassword = bcrypt.compareSync(password, user.password);
+    if (!comparedPassword) {
+      return next(ApiError.internal('Incorrect password'));
+    }
+    const token = generateJwt(user.id, user.email, user.role);
+
+    return res.json({ token });
   }
+
+  async auth(req: Request, res: Response, next: NextFunction) {}
 }
 
 export default new UserController();
