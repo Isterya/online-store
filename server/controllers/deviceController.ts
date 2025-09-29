@@ -30,7 +30,6 @@ class DeviceController {
         brandId,
         typeId,
         img: fileName,
-        // FIX: (as any)
       })) as Model & { id: number };
 
       if (info) {
@@ -102,7 +101,15 @@ class DeviceController {
     }
   }
 
-  async getOne(req: Request, res: Response) {}
+  async getOne(req: Request, res: Response) {
+    const { id } = req.params;
+    const device = await Device.findOne({
+      where: { id: Number(id) },
+      include: [{ model: DeviceInfo, as: 'info' }],
+    });
+
+    return res.json(device);
+  }
 }
 
 export default new DeviceController();
