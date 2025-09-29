@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
+import { Model } from 'sequelize';
 
 import ApiError from '../error/ApiError';
 import { models } from '../models/models';
 
-const { Device } = models;
+const { Device, DeviceInfo } = models;
 
 class DeviceController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, price, brandId, typeId, info } = req.body;
+      let { name, price, brandId, typeId, info } = req.body;
 
       const files = req.files as { [key: string]: any } | undefined;
 
@@ -23,13 +24,27 @@ class DeviceController {
       let fileName = uuidv4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
 
-      const device = await Device.create({
+      const device = (await Device.create({
         name,
         price,
         brandId,
         typeId,
         img: fileName,
-      });
+        // FIX: (as any)
+      })) as Model & { id: number };
+
+      if (info) {
+        const parsedInfo: Array<{ title: string; description: string }> =
+          JSON.parse(info as string);
+
+        parsedInfo.forEach((i) => {
+          DeviceInfo.create({
+            title: i.title,
+            description: i.description,
+            deviceId: device.id,
+          });
+        });
+      }
 
       return res.json(device);
     } catch (e: unknown) {
@@ -43,24 +58,40 @@ class DeviceController {
 
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const { brandId, typeId } = req.query;
+      const { brandId, typeId, limit, page } = req.query;
+
+      const pageNumber = Number(page) || 1;
+      const limitNumber = Number(limit) || 9;
+      const offset = pageNumber * limitNumber - limitNumber;
 
       let devices;
 
       if (!brandId && !typeId) {
-        devices = await Device.findAll();
+        devices = await Device.findAndCountAll({ limit: limitNumber, offset });
       }
 
       if (brandId && !typeId) {
-        devices = await Device.findAll({ where: { brandId } });
+        devices = await Device.findAndCountAll({
+          where: { brandId },
+          limit: limitNumber,
+          offset,
+        });
       }
 
       if (!brandId && typeId) {
-        devices = await Device.findAll({ where: { typeId } });
+        devices = await Device.findAndCountAll({
+          where: { typeId },
+          limit: limitNumber,
+          offset,
+        });
       }
 
       if (brandId && typeId) {
-        devices = await Device.findAll({ where: { typeId, brandId } });
+        devices = await Device.findAndCountAll({
+          where: { typeId, brandId },
+          limit: limitNumber,
+          offset,
+        });
       }
 
       return res.json(devices);
