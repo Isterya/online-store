@@ -58,7 +58,11 @@ class UserController {
     return res.json({ token });
   }
 
-  async auth(req: Request, res: Response, next: NextFunction) {}
+  async auth(req: Request, res: Response, next: NextFunction) {
+    const token = generateJwt(req.user.id, req.user.email, req.user.role);
+
+    return res.json({ token });
+  }
 }
 
 export default new UserController();
