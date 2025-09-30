@@ -1,14 +1,27 @@
 import { makeAutoObservable } from 'mobx';
 
+interface IType {
+  id: number;
+  name: string;
+}
+
+interface IDevice {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  img: string;
+}
+
 export default class DeviceStore {
-  private _types = [
+  private _types: IType[] = [
     { id: 1, name: 'Холодильники' },
     { id: 2, name: 'Смартфоны' },
     { id: 3, name: 'Ноутбуки' },
     { id: 4, name: 'Телевизоры' },
   ];
-  private _brands = [{ id: 1, name: 'Apple' }];
-  private _devices = [
+  private _brands: IType[] = [{ id: 1, name: 'Apple' }];
+  private _devices: IDevice[] = [
     {
       id: 4,
       name: '12 pro',
@@ -24,29 +37,26 @@ export default class DeviceStore {
       img: '6ef02227-bb11-4bac-9f4b-9dc5f26b3433.jpg',
     },
   ];
+  private _selectedType: IType | null = null; // ← вот ключевой момент
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setTypes(types: { id: number; name: string }[]) {
+  setTypes(types: IType[]) {
     this._types = types;
   }
 
-  setBrands(brands: { id: number; name: string }[]) {
+  setBrands(brands: IType[]) {
     this._brands = brands;
   }
 
-  setDevices(
-    devices: {
-      id: number;
-      name: string;
-      price: number;
-      rating: number;
-      img: string;
-    }[]
-  ) {
+  setDevices(devices: IDevice[]) {
     this._devices = devices;
+  }
+
+  setSelectedType(type: IType) {
+    this._selectedType = type;
   }
 
   get types() {
@@ -59,5 +69,9 @@ export default class DeviceStore {
 
   get devices() {
     return this._devices;
+  }
+
+  get selectedType() {
+    return this._selectedType;
   }
 }
