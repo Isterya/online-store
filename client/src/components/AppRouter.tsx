@@ -1,13 +1,21 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { authRoutes, publicRoutes } from '../routes';
 import { SHOP_ROUTE } from '../utils/consts';
+import { useContext } from 'react';
+import { Context } from '../main';
 
 const AppRouter = () => {
-  const isAuth = false; // later from context
+  const context = useContext(Context);
+
+  if (!context) {
+    throw new Error('Context must be used within a ContextProvider');
+  }
+
+  const { user } = context;
 
   return (
     <Routes>
-      {isAuth &&
+      {user.isAuth &&
         authRoutes.map(({ path, Component }) => (
           <Route
             key={path}
