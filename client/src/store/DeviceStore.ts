@@ -37,7 +37,8 @@ export default class DeviceStore {
       img: '6ef02227-bb11-4bac-9f4b-9dc5f26b3433.jpg',
     },
   ];
-  private _selectedType: IType | null = null; // ← вот ключевой момент
+  private _selectedType: IType | null = null;
+  private _selectedBrand: IType | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -59,6 +60,10 @@ export default class DeviceStore {
     this._selectedType = type;
   }
 
+  setSelectedBrand(brand: IType) {
+    this._selectedBrand = brand;
+  }
+
   get types() {
     return this._types;
   }
@@ -73,5 +78,9 @@ export default class DeviceStore {
 
   get selectedType() {
     return this._selectedType;
+  }
+
+  get selectedBrand() {
+    return this._selectedBrand;
   }
 }
