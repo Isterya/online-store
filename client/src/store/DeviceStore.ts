@@ -20,7 +20,13 @@ export default class DeviceStore {
     { id: 3, name: 'Ноутбуки' },
     { id: 4, name: 'Телевизоры' },
   ];
-  private _brands: IType[] = [{ id: 1, name: 'Apple' }];
+  private _brands: IType[] = [
+    { id: 1, name: 'Apple' },
+    { id: 2, name: 'Samsung' },
+    { id: 3, name: 'Xiaomi' },
+    { id: 4, name: 'DragonX' },
+    { id: 5, name: 'Honor' },
+  ];
   private _devices: IDevice[] = [
     {
       id: 4,

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { Context } from '../main';
-import { Card, Row } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 
 const BrandBar = observer(() => {
   const context = useContext(Context);
@@ -15,13 +15,19 @@ const BrandBar = observer(() => {
   return (
     <Row className="d-flex">
       {device.brands.map((brand) => (
-        <Card
+        <Col
           key={brand.id}
-          className="p-3"
-          style={{ cursor: 'pointer' }}
+          md="auto"
         >
-          {brand.name}
-        </Card>
+          <Card
+            className="p-3"
+            style={{ cursor: 'pointer' }}
+            onClick={() => device.setSelectedBrand(brand)}
+            border={brand.id === device.selectedBrand?.id ? 'danger' : 'light'}
+          >
+            {brand.name}
+          </Card>
+        </Col>
       ))}
     </Row>
   );
