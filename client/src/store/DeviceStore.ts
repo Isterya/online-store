@@ -5,7 +5,7 @@ interface IType {
   name: string;
 }
 
-interface IDevice {
+export interface IDevice {
   id: number;
   name: string;
   price: number;
