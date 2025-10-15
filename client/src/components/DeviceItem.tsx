@@ -1,13 +1,18 @@
 import type { IDevice } from '../store/DeviceStore';
 import { Card, Col, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 import star from '../assets/star.svg';
+import { DEVICE_ROUTE } from '../utils/consts';
 
 const DeviceItem = ({ device }: { device: IDevice }) => {
+  const navigate = useNavigate();
+
   return (
     <Col
       md={3}
       className="mb-3"
+      onClick={() => navigate(`${DEVICE_ROUTE}/${device.id}`)}
     >
       <Card
         style={{ width: 150, cursor: 'pointer' }}
