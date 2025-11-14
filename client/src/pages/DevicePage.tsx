@@ -11,6 +11,15 @@ const DevicePage = () => {
     img: 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=',
   };
 
+  const description = [
+    { id: 1, title: 'Оперативная память', description: '5 гб' },
+    { id: 2, title: 'Камера', description: '12 мп' },
+    { id: 3, title: 'Процессор', description: 'Пентиум 3' },
+    { id: 4, title: 'Экран', description: '5.5 дюймов' },
+    { id: 5, title: 'Кол-во ядер', description: '2' },
+    { id: 6, title: 'Аккумулятор', description: '4000 мАч' },
+  ];
+
   return (
     <Container>
       <Row className="mt-3">
@@ -53,6 +62,20 @@ const DevicePage = () => {
             <Button variant={'outline-dark'}> Add to cart</Button>
           </Card>
         </Col>
+      </Row>
+      <Row className="d-flex flex-column m-3">
+        <h1>Stats</h1>
+        {description.map((info, index) => (
+          <Row
+            key={info.id}
+            style={{
+              background: index % 2 === 0 ? 'lightgray' : 'transparent',
+              padding: 10,
+            }}
+          >
+            {info.title}: {info.description}
+          </Row>
+        ))}
       </Row>
     </Container>
   );
