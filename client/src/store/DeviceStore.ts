@@ -33,14 +33,14 @@ export default class DeviceStore {
       name: '12 pro',
       price: 1500,
       rating: 0,
-      img: 'fd15045e-72dd-479e-8d59-05cf6e9b6ede.jpg',
+      img: 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=',
     },
     {
       id: 5,
       name: '15 max',
       price: 33300,
       rating: 0,
-      img: '6ef02227-bb11-4bac-9f4b-9dc5f26b3433.jpg',
+      img: 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=',
     },
   ];
   private _selectedType: IType | null = null;
