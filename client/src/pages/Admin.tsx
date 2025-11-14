@@ -3,9 +3,24 @@ import { Button, Container } from 'react-bootstrap';
 const Admin = () => {
   return (
     <Container className="d-flex flex-column">
-      <Button className="">Add type</Button>
-      <Button className="">Add brand</Button>
-      <Button className="">Add device</Button>
+      <Button
+        variant={'outline-dark'}
+        className="mt-4 p-2"
+      >
+        Add type
+      </Button>
+      <Button
+        variant={'outline-dark'}
+        className="mt-4 p-2"
+      >
+        Add brand
+      </Button>
+      <Button
+        variant={'outline-dark'}
+        className="mt-4 p-2"
+      >
+        Add device
+      </Button>
     </Container>
   );
 };
